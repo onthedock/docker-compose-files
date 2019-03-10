@@ -1,0 +1,36 @@
+version: "3.5"
+services:
+  ui:
+    image: gitea/gitea:1.7
+    container_name: gitea-ui
+    volumes:
+      - data:/data
+    ports:
+      - "3000:3000"
+      - "2200:22"
+    depends_on:
+      - db
+    networks:
+      - gitea-internal
+    restart: always
+  db:
+    image: mariadb:10
+    container_name: gitea-db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=WMH3QT6l3Qhkl1XdFGlPEIOGRBOUGxcg
+      - MYSQL_DATABASE=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=tnaAEFCREGwnn6lzrKh8PQFhzJsDsFHz
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - gitea-internal
+volumes:
+  db-data:
+    name: gitea-db-data
+  data:
+    name: gitea-data
+networks:
+  gitea-internal:
+    name: gitea-internal
